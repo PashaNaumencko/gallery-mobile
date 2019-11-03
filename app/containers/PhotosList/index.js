@@ -3,11 +3,24 @@ import { Text, Image, ImageBackground, View, FlatList, TouchableOpacity, Activit
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getPhotos } from '../../routines';
+import colors from '../../config/color.config';
 
-
+// import AntDesign from 'react-native-vector-icons/AntDesign';
 import styles from './styles';
+// import Icon from 'react-native-vector-icons/AntDesign';
 
 class PhotosList extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      page: 1
+    };
+  }
+  
+
+  static itemCountPerPage = 6;
+
   static navigationOptions = {
     title: 'Gallery'
   };
@@ -18,16 +31,32 @@ class PhotosList extends React.Component {
 
   onLoad = () => {
     const { getPhotos } = this.props;
-    getPhotos();
+    const { page } = this.state;
+    getPhotos({ page, per_page: PhotosList.itemCountPerPage });
+
   };
+
+  fetchMore = () => {
+    this.setState(
+      (prevState) => ({
+        page: prevState.page + 1
+      }),
+      () => this.onLoad()
+    );
+  }
 
   onPhotoPress = (photo) => () => {
     this.props.navigation.push('PhotoPage', { photoInfo: photo });
   };
 
+  onRefresh = () => {
+    this.setState({ page: 1 });
+    this.onLoad();
+  }
+
   getRenderItem = ({ item }) => {
     const { urls: { regular: imgUrl }, user: { username, profile_image: { medium: avatarUrl } }, description } = item;
-    console.log(avatarUrl);
+    
     return (
       <TouchableOpacity
         onPress={this.onPhotoPress(item)}
@@ -37,10 +66,11 @@ class PhotosList extends React.Component {
             <View>
               <Image style={styles.avatar} source={{ uri: avatarUrl }} />
               <View style={styles.description}>
-                <Text>{description}</Text>
-                <Text>{username}</Text>
+                <Text style={styles.descriptionText}>{description}</Text>
+                <Text style={styles.descriptionText}>{username}</Text>
               </View>
             </View>
+            {/* <LikeIcon /> */}
           </View>
         </ImageBackground>
       </TouchableOpacity>
@@ -51,21 +81,32 @@ class PhotosList extends React.Component {
 
   render() {
     const { photos, loading } = this.props;
+    const { page } = this.state;
+    console.log(page);
+
+    const firstLoading = loading && page === 1;
+    const moreLoading = loading && page > 1;
 
     return (
       <View style={styles.container}>
-        {loading 
-          ? <ActivityIndicator style={styles.loader} size="large" color="#0000ff" /> 
+        {firstLoading
+          ? <ActivityIndicator style={styles.loader} size="large" color={colors.blue} /> 
           : (
-            <FlatList
-              refreshing={loading}
-              onRefresh={this.onLoad}
-              data={photos}
-              horizontal={false}
-              numColumns={2}
-              keyExtractor={this.getKeyExtractor}
-              renderItem={this.getRenderItem}
-            />
+            <>
+              <FlatList
+                refreshing={firstLoading}
+                onRefresh={this.onRefresh}
+                data={photos}
+                horizontal={false}
+                numColumns={2}
+                keyExtractor={this.getKeyExtractor}
+                renderItem={this.getRenderItem}
+                onEndReached={this.fetchMore}
+                onEndReachedThreshold={0}
+                initialNumToRender={6}
+              />
+              {moreLoading && <ActivityIndicator style={styles.loader} size="large" color={colors.blue} />}
+            </>
           )
         }
       </View>
@@ -80,7 +121,7 @@ PhotosList.propTypes = {
   getPhotos: PropTypes.func.isRequired
 };
 
-const mapStateToProps = ({ PhotosList: { photos, loading } }) => ({
+const mapStateToProps = ({ PhotosList: { photos, loading, fetchMore } }) => ({
   photos,
   loading
 });

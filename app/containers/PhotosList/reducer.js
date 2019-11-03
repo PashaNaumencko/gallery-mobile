@@ -1,7 +1,7 @@
 import { getPhotos } from '../../routines';
 
 const initialState = {
-  photos: {},
+  photos: [],
   loading: true,
   error: null
 };
@@ -16,7 +16,7 @@ export default (state = initialState, action) => {
   case getPhotos.SUCCESS: {
     return {
       ...state,
-      photos: action.payload
+      photos: [...state.photos, ...action.payload]
     };
   }
   case getPhotos.FAILURE: {

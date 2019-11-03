@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import colors from '../../config/color.config';
 
 export default StyleSheet.create({
   container: {
@@ -16,19 +17,25 @@ export default StyleSheet.create({
   },
   infoBox: {
     position: 'absolute',
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    backgroundColor: colors.shadowColor,
+    // padding: '0 2',
     bottom: 0,
     right: 0,
     left: 0
   },
   avatar: {
+    width: 10,
+    height: 10,
     borderRadius: 50,
-    backgroundColor: '#fff',
+    backgroundColor: colors.white,
     justifyContent: 'center',
     alignItems: 'center'
   },
   description: {
-    color: '#fff',
-    
+    color: colors.white,
+
+  },
+  descriptionText: {
+    color: colors.white,
   }
 });

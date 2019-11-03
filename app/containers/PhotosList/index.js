@@ -5,9 +5,8 @@ import PropTypes from 'prop-types';
 import { getPhotos } from '../../routines';
 import colors from '../../config/color.config';
 
-// import AntDesign from 'react-native-vector-icons/AntDesign';
 import styles from './styles';
-// import Icon from 'react-native-vector-icons/AntDesign';
+
 
 class PhotosList extends React.Component {
   constructor(props) {
@@ -18,7 +17,6 @@ class PhotosList extends React.Component {
     };
   }
   
-
   static itemCountPerPage = 6;
 
   static navigationOptions = {
@@ -72,7 +70,6 @@ class PhotosList extends React.Component {
                 <Text style={styles.descriptionText}>{username}</Text>
               </View>
             </View>
-            {/* <LikeIcon /> */}
           </View>
         </ImageBackground>
       </TouchableOpacity>

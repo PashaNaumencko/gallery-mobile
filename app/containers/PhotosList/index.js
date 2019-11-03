@@ -62,11 +62,12 @@ class PhotosList extends React.Component {
         onPress={this.onPhotoPress(item)}
       >
         <ImageBackground source={{ uri: imgUrl }} style={styles.image}>
-          <View style={styles.infoBox}>
-            <View>
+          <View style={styles.info}>
+            <View style={styles.infoBox}>
               <Image style={styles.avatar} source={{ uri: avatarUrl }} />
               <View style={styles.description}>
-                <Text style={styles.descriptionText}>{title}</Text>
+                <View><Text numberOfLines={1} style={styles.descriptionText}>{title}</Text></View>
+                
                 <Text style={styles.descriptionText}>{username}</Text>
               </View>
             </View>

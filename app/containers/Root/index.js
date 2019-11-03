@@ -4,11 +4,10 @@ import PropTypes from 'prop-types';
 import { AppNavigator } from '../../routes';
 
 
-const Root = () => {
-  const { store } = this.props;
+const Root = ({ store }) => {
   return (
     <Provider store={store}>
-      <AppNavigator ref={this.getNavigator} />
+      <AppNavigator />
     </Provider>
   );
 };
@@ -17,4 +16,4 @@ Root.propTypes = {
   store: PropTypes.object
 };
 
-export default App;
+export default Root;

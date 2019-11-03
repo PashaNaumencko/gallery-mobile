@@ -56,7 +56,9 @@ class PhotosList extends React.Component {
 
   getRenderItem = ({ item }) => {
     const { urls: { regular: imgUrl }, user: { username, profile_image: { medium: avatarUrl } }, description } = item;
-    
+
+    const title = description || 'Untitled';
+
     return (
       <TouchableOpacity
         onPress={this.onPhotoPress(item)}
@@ -66,7 +68,7 @@ class PhotosList extends React.Component {
             <View>
               <Image style={styles.avatar} source={{ uri: avatarUrl }} />
               <View style={styles.description}>
-                <Text style={styles.descriptionText}>{description}</Text>
+                <Text style={styles.descriptionText}>{title}</Text>
                 <Text style={styles.descriptionText}>{username}</Text>
               </View>
             </View>
@@ -82,7 +84,6 @@ class PhotosList extends React.Component {
   render() {
     const { photos, loading } = this.props;
     const { page } = this.state;
-    console.log(page);
 
     const firstLoading = loading && page === 1;
     const moreLoading = loading && page > 1;

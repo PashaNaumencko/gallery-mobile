@@ -12,6 +12,15 @@ const PhotoPage = ({ navigation }) => {
   );
 };
 
+PhotoPage.navigationOptions = ({ navigation }) => {
+  const { description } = navigation.getParam('photoInfo');
+  const title = description || 'Untitled';
+  return {
+    title
+  };
+};
+
+
 PhotoPage.propTypes = {
   navigation: PropTypes.object,
   getParam: PropTypes.func

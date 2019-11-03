@@ -18,8 +18,7 @@ const AppNavigator = createStackNavigator(
       headerTintColor: '#000',
       headerTitleStyle: {
         fontWeight: '600'
-      },
-      navigationOptions: PhotosList.navigationOptions,
+      }
     }
   }
 );
